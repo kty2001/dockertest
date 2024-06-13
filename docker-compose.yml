@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  app1:
+    build:
+      context: ./posedetection
+      dockerfile: Dockerfile
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - capabilities: [gpu]
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0,1,2,3,4 # 0번 GPU 할당
+
+  app2:
+    build:
+      context: ./gptnhomepage
+      dockerfile: Dockerfile
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - capabilities: [gpu]
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=5,6,7,8,9 # 1번 GPU 할당
