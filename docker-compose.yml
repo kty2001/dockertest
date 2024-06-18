@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  app1:
+  pose:
     build:
       context: ./posedetection
       dockerfile: Dockerfile
@@ -11,12 +11,14 @@ services:
           - capabilities: [gpu]
     runtime: nvidia
     environment:
-      - NVIDIA_VISIBLE_DEVICES=0,1,2,3,4 # 0번 GPU 할당
+      - NVIDIA_VISIBLE_DEVICES=0,1,2,3,4
 
-  app2:
+  gpt:
     build:
       context: ./gptnhomepage
       dockerfile: Dockerfile
+    depends_on:
+      - pose
     deploy:
       resources:
         reservations:
@@ -24,4 +26,4 @@ services:
           - capabilities: [gpu]
     runtime: nvidia
     environment:
-      - NVIDIA_VISIBLE_DEVICES=5,6,7,8,9 # 1번 GPU 할당
+      - NVIDIA_VISIBLE_DEVICES=5,6,7,8,9
